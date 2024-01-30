@@ -18,7 +18,6 @@
             <property name="hibernate.connection.CharSet" value="utf8"/>
             <property name="hibernate.connection.characterEncoding" value="utf8"/>
             <property name="hibernate.connection.useUnicode" value="true"/>
-
         </properties>
     </persistence-unit>
 </persistence>
