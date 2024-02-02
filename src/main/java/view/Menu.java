@@ -165,7 +165,16 @@ public class Menu {
     }
 
     private void addSubject() {
-
+        System.out.println("please enter your title:");
+        String title = scanner.next();
+        try {
+            Optional<Subject> byTitle = subjectService.findByTitle(title);
+            if (byTitle.isPresent()) {
+                System.out.println("The subject of the book is available");
+            }
+        } catch (NoResultException e) {
+            subjectService.save(new Subject(title));
+        }
     }
 
     private void menuForBooks() {
