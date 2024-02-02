@@ -13,11 +13,12 @@
         <maven.compiler.target>20</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.hibernate.orm</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>6.2.2.Final</version>
+            <version>6.4.1.Final</version>
         </dependency>
 
         <dependency>
@@ -30,7 +31,7 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.6.0</version>
+            <version>42.7.1</version>
         </dependency>
 
         <dependency>
@@ -44,5 +45,6 @@
             <artifactId>jakarta.el</artifactId>
             <version>4.0.1</version>
         </dependency>
+
     </dependencies>
 </project>

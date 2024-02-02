@@ -4,7 +4,6 @@ import base.entity.BaseEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
-import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -14,7 +13,7 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 @Inheritance(strategy = InheritanceType.JOINED)
-@MappedSuperclass
+@Entity
 public class Person extends BaseEntity<Long> {
     @NotNull
     String firstName;
