@@ -1,6 +1,7 @@
 package view;
 
 import base.repository.util.HibernateUtil;
+import entity.Book;
 import entity.Librarian;
 import entity.Member;
 import entity.Subject;
@@ -164,7 +165,11 @@ public class Menu {
                 removeSubject();
                 break;
             case 4:
-                LoadAllSubject();
+                loadAllSubject();
+                break;
+            case 5:
+                loadAllSubjectByBook();
+                break;
             case 6:
                 programAdmin();
             default:
@@ -216,10 +221,17 @@ public class Menu {
         }
     }
 
-    private void LoadAllSubject() {
+    private void loadAllSubject() {
         List<Subject> subjects = subjectService.loadAll();
         for (Subject subject : subjects) {
             System.out.println(subject.getTitle());
+        }
+    }
+
+    private void loadAllSubjectByBook() {
+        List<Book> books = bookService.loadAll();
+        for (Book book : books) {
+            System.out.println(book.getSubject() + ": " + book.getTitle());
         }
     }
 
