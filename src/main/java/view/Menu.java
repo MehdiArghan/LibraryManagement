@@ -160,6 +160,9 @@ public class Menu {
             case 2:
                 editSubject();
                 break;
+            case 3:
+                removeSubject();
+                break;
             case 6:
                 programAdmin();
             default:
@@ -178,7 +181,7 @@ public class Menu {
             }
         } catch (NoResultException e) {
             subjectService.save(new Subject(title));
-            System.out.println("The subject of the book has been successfully registered");
+            System.out.println(title + " was successfully registered");
         }
     }
 
@@ -191,7 +194,21 @@ public class Menu {
                 System.out.println("enter new title: ");
                 subject.setTitle(scanner.next());
                 subjectService.update(subject);
-            } else{
+            } else {
+                System.out.println();
+            }
+        }
+    }
+
+    private void removeSubject() {
+        List<Subject> subjects = subjectService.loadAll();
+        for (Subject subject : subjects) {
+            System.out.println("subject: " + subject);
+            System.out.println("do you want to remove it? y->Yes  n->No");
+            if (scanner.next().equals("y")) {
+                subjectService.remove(subject);
+                System.out.println(subject.getTitle() + " was successfully removed");
+            } else {
                 System.out.println();
             }
         }
