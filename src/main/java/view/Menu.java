@@ -231,11 +231,29 @@ public class Menu {
     private void loadAllSubjectByBook() {
         List<Book> books = bookService.loadAll();
         for (Book book : books) {
-            System.out.println(book.getSubject() + ": " + book.getTitle());
+            System.out.println(book.getSubject() + " : " + book.getTitle());
         }
     }
 
     private void menuForBooks() {
+        while (true) {
+            System.out.println();
+            System.out.println("---------------------(MenuForBooks)---------------------");
+            System.out.println("""
+                      1)Add book
+                      2)Edit book
+                      3)remove book
+                      4)load All book
+                      5)back to main menu
+                      -------------------------------------------------------------------------
+                      please enter your option:
+                    """);
+            manageBook();
+        }
+    }
+
+    private void manageBook() {
+
     }
 
     private void programMember() {
