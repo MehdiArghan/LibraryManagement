@@ -146,10 +146,31 @@ public class Menu {
                 """);
         manageSubject();
     }
+
     private void manageSubject() {
+        while (true) {
+            System.out.println(" -------------------------------------------------------------------------");
+            System.out.println("please enter your option: ");
+            switch (scanner.nextInt()) {
+                case 1:
+                    addSubject();
+                    break;
+                case 6:
+                    programAdmin();
+                default:
+                    System.out.println("invalid option");
+                    menuForSubject();
+            }
+        }
     }
+
+    private void addSubject() {
+
+    }
+
     private void menuForBooks() {
     }
+
     private void programMember() {
     }
 }
