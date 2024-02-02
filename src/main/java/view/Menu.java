@@ -32,6 +32,7 @@ public class Menu {
     private Librarian librarian = new Librarian();
 
     public void showMenu() {
+        System.out.println();
         System.out.println("          *******(Library)*******          ");
         System.out.println("1-SignUp");
         System.out.println("2-Login");
@@ -52,6 +53,7 @@ public class Menu {
     }
 
     private void signUp() {
+        System.out.println();
         System.out.println("firstName:----------------------");
         String name = scanner.next();
         System.out.println("LastName:--------------------");
@@ -83,7 +85,9 @@ public class Menu {
 
 
     private void logIn() {
-        System.out.println("-------------LOGIN-----------------");
+        System.out.println();
+        System.out.println("-------------(LOGIN)-----------------");
+        System.out.println();
         System.out.println("userName:------------------");
         String username = scanner.next();
         System.out.println("password:------------------");
@@ -108,11 +112,36 @@ public class Menu {
         }
     }
 
-    private void programMember() {
-
+    private void programAdmin() {
+        System.out.println();
+        System.out.println("---------------------(MenuAdmin)---------------------");
+        System.out.println();
+        System.out.println("1-Subject category");
+        System.out.println("2-Classification of books");
+        System.out.println("3-Exit");
+        System.out.println("please choose your option:");
+        switch (scanner.nextInt()) {
+            case 1 -> menuForSubject();
+            case 2 -> menuForBooks();
+            case 3 -> {
+                librarian = null;
+                showMenu();
+            }
+            default -> {
+                System.out.println("invalid option");
+                programAdmin();
+            }
+        }
     }
 
-    private void programAdmin() {
+    private void menuForBooks() {
+    }
+
+    private void menuForSubject() {
+    }
+
+
+    private void programMember() {
 
     }
 }
