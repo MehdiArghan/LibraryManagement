@@ -4,6 +4,7 @@ import base.repository.util.HibernateUtil;
 import entity.Librarian;
 import entity.Member;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import repository.impl.BookRepositoryImpl;
 import repository.impl.LibrarianRepositoryImpl;
 import repository.impl.MemberRepositoryImpl;
@@ -17,6 +18,7 @@ import service.impl.LibrarianServiceImpl;
 import service.impl.MemberServiceImpl;
 import service.impl.SubjectServiceImpl;
 
+import java.util.Optional;
 import java.util.Scanner;
 
 public class Menu {
@@ -26,8 +28,8 @@ public class Menu {
     private final MemberService memberService = new MemberServiceImpl(entityManager, new MemberRepositoryImpl(entityManager));
     private final SubjectService subjectService = new SubjectServiceImpl(entityManager, new SubjectRepositoryImpl(entityManager));
     private final Scanner scanner = new Scanner(System.in);
-    private final Member member = new Member();
-    private final Librarian librarian = new Librarian();
+    private Member member = new Member();
+    private Librarian librarian = new Librarian();
 
     public void showMenu() {
         System.out.println("          *******(Library)*******          ");
@@ -58,7 +60,7 @@ public class Menu {
         String username = scanner.next();
         System.out.println("password:------------------");
         String password = scanner.next();
-        if (username.startsWith("mohammad")) {
+        if (username.startsWith("*")) {
             Librarian userLibrarian = new Librarian(name, family, username, password, "admin");
             boolean validate = librarianService.validate(userLibrarian);
             if (validate) {
@@ -81,6 +83,36 @@ public class Menu {
 
 
     private void logIn() {
+        System.out.println("-------------LOGIN-----------------");
+        System.out.println("userName:------------------");
+        String username = scanner.next();
+        System.out.println("password:------------------");
+        String password = scanner.next();
+        try {
+            if (username.startsWith("*")) {
+                Optional<Librarian> byUserNameAndPassword = librarianService.findByUserNameAndPassword(username, password);
+                if (byUserNameAndPassword.isPresent()) {
+                    librarian = byUserNameAndPassword.get();
+                    programAdmin();
+                }
+            } else {
+                Optional<Member> byUserNameAndPassword = memberService.findByUserNameAndPassword(username, password);
+                if (byUserNameAndPassword.isPresent()) {
+                    member = byUserNameAndPassword.get();
+                    programMember();
+                }
+            }
+        } catch (NoResultException e) {
+            System.out.println("username and password is inCorrect");
+            showMenu();
+        }
+    }
+
+    private void programMember() {
+
+    }
+
+    private void programAdmin() {
 
     }
 }

@@ -7,6 +7,8 @@ import repository.LibrarianRepository;
 import service.LibrarianService;
 import util.checkValidation;
 
+import java.util.Optional;
+
 public class LibrarianServiceImpl extends BaseServiceImpl<Long, Librarian, LibrarianRepository> implements LibrarianService {
     protected EntityManager entityManager;
 
@@ -23,6 +25,11 @@ public class LibrarianServiceImpl extends BaseServiceImpl<Long, Librarian, Libra
         } catch (RuntimeException e) {
             entityManager.getTransaction().rollback();
         }
+    }
+
+    @Override
+    public Optional<Librarian> findByUserNameAndPassword(String userName, String password) {
+        return repository.findByUserNameAndPassword(userName, password);
     }
 
     @Override
