@@ -261,7 +261,7 @@ public class Menu {
 
                 break;
             case 3:
-
+                removeBook();
                 break;
             case 4:
 
@@ -289,6 +289,20 @@ public class Menu {
                 book.setSubject(subject);
                 bookService.save(book);
                 System.out.println("saved book");
+            } else {
+                System.out.println();
+            }
+        }
+    }
+
+    private void removeBook() {
+        List<Book> bookList = bookService.loadAll();
+        for (Book book : bookList) {
+            System.out.println("Title:"+book.getTitle() + "  Author:" + book.getAuthor());
+            System.out.println("Are you sure that remove this book? y ->yes  n ->no");
+            if (scanner.next().equals("y")) {
+                bookService.remove(book);
+                System.out.println(book.getTitle() + " removed");
             } else {
                 System.out.println();
             }
