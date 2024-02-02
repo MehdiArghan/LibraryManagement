@@ -163,6 +163,8 @@ public class Menu {
             case 3:
                 removeSubject();
                 break;
+            case 4:
+                LoadAllSubject();
             case 6:
                 programAdmin();
             default:
@@ -211,6 +213,13 @@ public class Menu {
             } else {
                 System.out.println();
             }
+        }
+    }
+
+    private void LoadAllSubject() {
+        List<Subject> subjects = subjectService.loadAll();
+        for (Subject subject : subjects) {
+            System.out.println(subject.getTitle());
         }
     }
 
