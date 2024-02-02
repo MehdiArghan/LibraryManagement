@@ -134,33 +134,33 @@ public class Menu {
     }
 
     private void menuForSubject() {
-        System.out.println();
-        System.out.println("---------------------(MenuForSubject)---------------------");
-        System.out.println("""
-                  1)Add subject
-                  2)Edit subject
-                  3)remove subject
-                  4)load All  subject
-                  5)load All  subject that their books exist
-                  6)back to main menu
-                """);
-        manageSubject();
+        while (true) {
+            System.out.println();
+            System.out.println("---------------------(MenuForSubject)---------------------");
+            System.out.println("""
+                      1)Add subject
+                      2)Edit subject
+                      3)remove subject
+                      4)load All  subject
+                      5)load All  subject that their books exist
+                      6)back to main menu
+                      -------------------------------------------------------------------------
+                      please enter your option:
+                    """);
+            manageSubject();
+        }
     }
 
     private void manageSubject() {
-        while (true) {
-            System.out.println(" -------------------------------------------------------------------------");
-            System.out.println("please enter your option: ");
-            switch (scanner.nextInt()) {
-                case 1:
-                    addSubject();
-                    break;
-                case 6:
-                    programAdmin();
-                default:
-                    System.out.println("invalid option");
-                    menuForSubject();
-            }
+        switch (scanner.nextInt()) {
+            case 1:
+                addSubject();
+                break;
+            case 6:
+                programAdmin();
+            default:
+                System.out.println("invalid option");
+                menuForSubject();
         }
     }
 
@@ -174,6 +174,7 @@ public class Menu {
             }
         } catch (NoResultException e) {
             subjectService.save(new Subject(title));
+            System.out.println("The subject of the book has been successfully registered");
         }
     }
 
