@@ -3,6 +3,7 @@ package view;
 import base.repository.util.HibernateUtil;
 import entity.Librarian;
 import entity.Member;
+import entity.Subject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import repository.impl.BookRepositoryImpl;
@@ -87,7 +88,6 @@ public class Menu {
     private void logIn() {
         System.out.println();
         System.out.println("-------------(LOGIN)-----------------");
-        System.out.println();
         System.out.println("userName:------------------");
         String username = scanner.next();
         System.out.println("password:------------------");
@@ -107,7 +107,7 @@ public class Menu {
                 }
             }
         } catch (NoResultException e) {
-            System.out.println("username and password is inCorrect");
+            System.out.println(e.getMessage());
             showMenu();
         }
     }
@@ -115,7 +115,6 @@ public class Menu {
     private void programAdmin() {
         System.out.println();
         System.out.println("---------------------(MenuAdmin)---------------------");
-        System.out.println();
         System.out.println("1-Subject category");
         System.out.println("2-Classification of books");
         System.out.println("3-Exit");
@@ -134,14 +133,23 @@ public class Menu {
         }
     }
 
+    private void menuForSubject() {
+        System.out.println();
+        System.out.println("---------------------(MenuForSubject)---------------------");
+        System.out.println("""
+                  1)Add subject
+                  2)Edit subject
+                  3)remove subject
+                  4)load All  subject
+                  5)load All  subject that their books exist
+                  6)back to main menu
+                """);
+        manageSubject();
+    }
+    private void manageSubject() {
+    }
     private void menuForBooks() {
     }
-
-    private void menuForSubject() {
-    }
-
-
     private void programMember() {
-
     }
 }
