@@ -231,7 +231,7 @@ public class Menu {
     private void loadAllSubjectByBook() {
         List<Book> books = bookService.loadAll();
         for (Book book : books) {
-            System.out.println(book.getSubject() + " : " + book.getTitle());
+            System.out.println(book.getSubject() + ": " + book.getTitle());
         }
     }
 
@@ -255,7 +255,7 @@ public class Menu {
     private void manageBook() {
         switch (scanner.nextInt()) {
             case 1:
-
+                addBook();
                 break;
             case 2:
 
@@ -272,6 +272,26 @@ public class Menu {
             default:
                 System.out.println("invalid option");
                 menuForBooks();
+        }
+    }
+
+    private void addBook() {
+        List<Subject> subjects = subjectService.loadAll();
+        for (Subject subject : subjects) {
+            System.out.println("subject: " + subject);
+            System.out.println("do you want select it or no ? y->Yes  n->No");
+            if (scanner.next().equals("y")) {
+                System.out.println("enter title book: ");
+                String title = scanner.next();
+                System.out.println("enter author of this book: ");
+                String author = scanner.next();
+                Book book = new Book(title, author);
+                book.setSubject(subject);
+                bookService.save(book);
+                System.out.println("saved book");
+            } else {
+                System.out.println();
+            }
         }
     }
 
