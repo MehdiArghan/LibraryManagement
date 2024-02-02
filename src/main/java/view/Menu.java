@@ -19,6 +19,7 @@ import service.impl.LibrarianServiceImpl;
 import service.impl.MemberServiceImpl;
 import service.impl.SubjectServiceImpl;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -156,6 +157,9 @@ public class Menu {
             case 1:
                 addSubject();
                 break;
+            case 2:
+                editSubject();
+                break;
             case 6:
                 programAdmin();
             default:
@@ -175,6 +179,21 @@ public class Menu {
         } catch (NoResultException e) {
             subjectService.save(new Subject(title));
             System.out.println("The subject of the book has been successfully registered");
+        }
+    }
+
+    private void editSubject() {
+        List<Subject> subjects = subjectService.loadAll();
+        for (Subject subject : subjects) {
+            System.out.println("subject: " + subject);
+            System.out.println("do you want to update it? y->Yes  n->No");
+            if (scanner.next().equals("y")) {
+                System.out.println("enter new title: ");
+                subject.setTitle(scanner.next());
+                subjectService.update(subject);
+            } else{
+                System.out.println();
+            }
         }
     }
 
