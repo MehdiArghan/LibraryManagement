@@ -18,8 +18,6 @@ import java.util.Set;
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Member extends Person {
-    String role;
-
     @ManyToMany
     @JoinTable(
             name = "bookReserve",
@@ -48,8 +46,7 @@ public class Member extends Person {
             joinColumns = @JoinColumn(name = "member_id"))
     Set<Book> historyOFBorrowedBookList;
 
-    public Member(@NotNull String firstName, @NotNull String lastName, @NotNull String userName, @NotNull String password, String role) {
+    public Member(@NotNull String firstName, @NotNull String lastName, @NotNull String userName, @NotNull String password) {
         super(firstName, lastName, userName, password);
-        this.role = role;
     }
 }

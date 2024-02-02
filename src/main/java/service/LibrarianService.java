@@ -2,9 +2,8 @@ package service;
 
 import base.service.BaseService;
 import entity.Librarian;
-
-import java.util.Optional;
+import entity.Member;
 
 public interface LibrarianService extends BaseService<Long, Librarian> {
-    /*Optional<Librarian> validate(Librarian librarian);*/
+    boolean validate(Librarian librarian);
 }

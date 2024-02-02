@@ -50,7 +50,7 @@ public class Menu {
     }
 
     private void signUp() {
-       /* System.out.println("firstName:----------------------");
+        System.out.println("firstName:----------------------");
         String name = scanner.next();
         System.out.println("LastName:--------------------");
         String family = scanner.next();
@@ -58,17 +58,25 @@ public class Menu {
         String username = scanner.next();
         System.out.println("password:------------------");
         String password = scanner.next();
-        System.out.println("role:----------Librarian---------Member----------");
-        String role = scanner.next();
-        if (role.isBlank() && role.equals("librarian")) {
-            librarianService.save(new Librarian());
-
-        } else if (role.isBlank() && role.equals("member")) {
-
+        if (username.startsWith("mohammad")) {
+            Librarian userLibrarian = new Librarian(name, family, username, password, "admin");
+            boolean validate = librarianService.validate(userLibrarian);
+            if (validate) {
+                System.out.println("Registration was successful");
+            } else {
+                System.out.println("Registration failed");
+                showMenu();
+            }
         } else {
-            System.out.println("invalid role");
-            signUp();
-        }*/
+            Member userMember = new Member(name, family, username, password);
+            boolean validate = memberService.validate(userMember);
+            if (validate) {
+                System.out.println("Registration was successful");
+            } else {
+                System.out.println("Registration failed");
+                showMenu();
+            }
+        }
     }
 
 

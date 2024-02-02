@@ -1,6 +1,7 @@
 package entity;
 
 import base.entity.BaseEntity;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
@@ -19,7 +20,7 @@ public class Person extends BaseEntity<Long> {
     String firstName;
     @NotNull
     String lastName;
-    @NotNull
+    @Column(unique = true)
     String userName;
     @NotNull
     String password;
