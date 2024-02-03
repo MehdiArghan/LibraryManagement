@@ -308,13 +308,23 @@ public class Menu {
             System.out.println("Are you sure that edit this book? y ->yes  n ->no");
             if (scanner.next().equals("y")) {
                 System.out.println("please enter your title book: ");
-                String title = scanner.next();
+                String titleBook = scanner.next();
                 System.out.println("please enter your Author book: ");
                 String author = scanner.next();
-                book.setTitle(title);
-                book.setAuthor(author);
-                bookService.update(book);
-                System.out.println(book.getTitle() + " successfully updated");
+                List<Subject> subjects = subjectService.loadAll();
+                for (Subject subject : subjects) {
+                    System.out.println("subject: " + subject);
+                    System.out.println("do you want select it or no? y->Yes  n->No");
+                    if (scanner.next().equals("y")) {
+                        book.setTitle(titleBook);
+                        book.setAuthor(author);
+                        book.setSubject(subject);
+                        bookService.update(book);
+                        System.out.println(book.getTitle() + " successfully updated");
+                    } else {
+                        System.out.println();
+                    }
+                }
             } else {
                 System.out.println();
             }
