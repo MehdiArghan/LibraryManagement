@@ -213,6 +213,12 @@ public class Menu {
             System.out.println("subject: " + subject);
             System.out.println("do you want to remove it? y->Yes  n->No");
             if (scanner.next().equals("y")) {
+                List<Book> booksBySubject = bookService.loadAll();
+                for (Book book : booksBySubject) {
+                    if (book.getSubject().getTitle().equals(subject.getTitle())) {
+                        bookService.remove(book);
+                    }
+                }
                 subjectService.remove(subject);
                 System.out.println(subject.getTitle() + " was successfully removed");
             } else {
@@ -258,7 +264,7 @@ public class Menu {
                 addBook();
                 break;
             case 2:
-
+                editBook();
                 break;
             case 3:
                 removeBook();
@@ -289,6 +295,26 @@ public class Menu {
                 book.setSubject(subject);
                 bookService.save(book);
                 System.out.println("saved book");
+            } else {
+                System.out.println();
+            }
+        }
+    }
+
+    private void editBook() {
+        List<Book> bookList = bookService.loadAll();
+        for (Book book : bookList) {
+            System.out.println("Title:" + book.getTitle() + "  Author:" + book.getAuthor());
+            System.out.println("Are you sure that edit this book? y ->yes  n ->no");
+            if (scanner.next().equals("y")) {
+                System.out.println("please enter your title book: ");
+                String title = scanner.next();
+                System.out.println("please enter your Author book: ");
+                String author = scanner.next();
+                book.setTitle(title);
+                book.setAuthor(author);
+                bookService.update(book);
+                System.out.println(book.getTitle() + " successfully updated");
             } else {
                 System.out.println();
             }
