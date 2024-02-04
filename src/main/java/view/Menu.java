@@ -20,9 +20,7 @@ import service.impl.LibrarianServiceImpl;
 import service.impl.MemberServiceImpl;
 import service.impl.SubjectServiceImpl;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
 
 public class Menu {
     private final EntityManager entityManager = HibernateUtil.getEntityManagerFactory().createEntityManager();
@@ -250,7 +248,8 @@ public class Menu {
                       2)Edit book
                       3)remove book
                       4)load All book
-                      5)back to main menu
+                      5)RequestBorrowBook
+                      6)back to main menu
                       -------------------------------------------------------------------------
                       please enter your option:
                     """);
@@ -273,6 +272,9 @@ public class Menu {
                 loadAllBooks();
                 break;
             case 5:
+                RequestBorrowBook();
+                break;
+            case 6:
                 programAdmin();
                 break;
             default:
@@ -350,6 +352,58 @@ public class Menu {
         for (Book book : bookList) {
             System.out.println("Subject:" + book.getSubject() +
                     "  Title:" + book.getTitle() + "  Author:" + book.getAuthor());
+        }
+    }
+
+    private void RequestBorrowBook() {
+        List<Member> members = memberService.loadAll();
+        for (Member member : members) {
+            System.out.println(member.getFirstName() + " " + member.getLastName());
+            if (!member.getBookReserveList().isEmpty()) {
+                Set<Book> temporaryReserveBook = new HashSet<>(member.getBookReserveList());
+                Set<Book> temporaryBorrowedBook = new HashSet<>(member.getBookBorrowedList());
+                Set<Book> temporaryHistoryBorrowedList = new HashSet<>(member.getHistoryOFBorrowedBookList());
+                for (Book book : temporaryReserveBook) {
+                    System.out.println("subject: " + book.getSubject().getTitle() + " title:" + book.getTitle() + " author:" + book.getAuthor());
+                    System.out.println("do you want to confirm reserve it? y ->yes  n -> no");
+                    if (scanner.next().equals("y")) {
+                        temporaryReserveBook.remove(book);
+                        temporaryBorrowedBook.add(book);
+                        temporaryHistoryBorrowedList.add(book);
+                        member.setHistoryOFBorrowedBookList(temporaryHistoryBorrowedList);
+                        member.setBookReserveList(temporaryReserveBook);
+                        member.setBookBorrowedList(temporaryBorrowedBook);
+                        memberService.update(member);
+                        System.out.println("updated");
+                    }
+                }
+            } else {
+                System.out.println("bookReserveList is Empty");
+            }
+
+
+            if (!member.getBookRenewalDeadlineList().isEmpty()) {
+                Set<Book> temporaryRenewalDeadlineList = new HashSet<>(member.getBookRenewalDeadlineList());
+                Set<Book> temporaryBorrowedList = new HashSet<>(member.getBookBorrowedList());
+                for (Book book : temporaryRenewalDeadlineList) {
+                    System.out.println("subject: " + book.getSubject().getTitle() + " title:" + book.getTitle() + " author:" + book.getAuthor());
+                    System.out.println("do you want to confirm renewal it? y ->yes  n -> no");
+                    String input = scanner.next();
+                    if (input.equals("y")) {
+                        temporaryRenewalDeadlineList.remove(book);
+                        member.setBookRenewalDeadlineList(temporaryRenewalDeadlineList);
+                        memberService.update(member);
+                        System.out.println("updated");
+                    } else if (input.equals("n")) {
+                        temporaryRenewalDeadlineList.remove(book);
+                        temporaryBorrowedList.remove(book);
+                        member.setBookRenewalDeadlineList(temporaryRenewalDeadlineList);
+                        member.setBookBorrowedList(temporaryBorrowedList);
+                        memberService.update(member);
+                        System.out.println("updated");
+                    }
+                }
+            }
         }
     }
 
