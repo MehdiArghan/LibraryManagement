@@ -107,6 +107,7 @@ public class Menu {
                 }
             }
         } catch (NoResultException e) {
+            System.out.println("There is no user");
             System.out.println(e.getMessage());
             showMenu();
         }
@@ -315,7 +316,7 @@ public class Menu {
                 String author = scanner.next();
                 List<Subject> subjects = subjectService.loadAll();
                 for (Subject subject : subjects) {
-                    System.out.println("subject: " + subject);
+                    System.out.println("subject: " + subject.getTitle());
                     System.out.println("do you want select it or no? y->Yes  n->No");
                     if (scanner.next().equals("y")) {
                         book.setTitle(titleBook);
@@ -391,7 +392,9 @@ public class Menu {
                     String input = scanner.next();
                     if (input.equals("y")) {
                         temporaryRenewalDeadlineList.remove(book);
+                        temporaryBorrowedList.add(book);
                         member.setBookRenewalDeadlineList(temporaryRenewalDeadlineList);
+                        member.setBookBorrowedList(temporaryBorrowedList);
                         memberService.update(member);
                         System.out.println("updated");
                     } else if (input.equals("n")) {
@@ -403,10 +406,107 @@ public class Menu {
                         System.out.println("updated");
                     }
                 }
+            } else {
+                System.out.println("Book Renewal Deadline List is Empty");
             }
         }
     }
 
     private void programMember() {
+        while (true) {
+            System.out.println("""
+                    ---------------------(MenuForMember)---------------------
+                    1)profile
+                    2)Borrowing books
+                    3)Extending the book loan
+                    4)history of Borrowed books
+                    5)Exit
+                    ---------------------------------------------------------
+                    """);
+            switch (scanner.nextInt()) {
+                case 1:
+                    System.out.println(member);
+                    break;
+                case 2:
+                    reserveBook();
+                    break;
+                case 3:
+                    RequestForExtensionOfBookBorrowing();
+                    break;
+                case 4:
+                    historyOfBorrowedBooks();
+                    break;
+                case 5:
+                    member = null;
+                    showMenu();
+                    break;
+                default:
+                    System.out.println("invalid option");
+                    programMember();
+                    break;
+            }
+        }
+    }
+
+    private void historyOfBorrowedBooks() {
+        if (!member.getHistoryOFBorrowedBookList().isEmpty()) {
+            Set<Book> historyOFBorrowedBookList = member.getHistoryOFBorrowedBookList();
+            for (Book book : historyOFBorrowedBookList) {
+                System.out.println(book);
+            }
+        } else {
+            System.out.println("history in Empty");
+        }
+    }
+
+    private void reserveBook() {
+        if (!bookService.loadAll().isEmpty()) {
+            List<Book> bookList = bookService.loadAll();
+            Set<Book> books = new HashSet<>();
+            for (Book book : bookList) {
+                System.out.println("subject: " + book.getSubject() + " title:" + book.getTitle() + " author:" + book.getAuthor());
+                System.out.println("Do you want to reserve the book?y ->yes  n -> no");
+                if (scanner.next().equals("y")) {
+                    books.add(book);
+                } else {
+                    System.out.println();
+                }
+            }
+            if (!books.isEmpty()) {
+                member.setBookReserveList(books);
+                memberService.update(member);
+                System.out.println("bookReserve successfully updated");
+            } else {
+                System.out.println("Not Reserve");
+            }
+        } else {
+            System.out.println("There is no book");
+        }
+    }
+
+    private void RequestForExtensionOfBookBorrowing() {
+        if (!member.getBookBorrowedList().isEmpty()) {
+            Set<Book> bookBorrowedList = member.getBookBorrowedList();
+            Set<Book> bookRenewalDeadlineList = member.getBookRenewalDeadlineList();
+            for (Book book : bookBorrowedList) {
+                System.out.println("Subject:" + book.getSubject() + " title:" + book.getTitle() + " author:" + book.getAuthor());
+                System.out.println("do you want to renewal deadline? y ->yes  n -> no");
+                String input = scanner.next();
+                if (input.equals("y")) {
+                    bookBorrowedList.remove(book);
+                    bookRenewalDeadlineList.add(book);
+                }
+            }
+            if (!bookRenewalDeadlineList.isEmpty()) {
+                member.setBookBorrowedList(bookBorrowedList);
+                member.setBookRenewalDeadlineList(bookRenewalDeadlineList);
+                memberService.update(member);
+                System.out.println("updated");
+            } else {
+                System.out.println("List is Empty");
+            }
+        } else {
+            System.out.println("BookBorrowedList is Empty");
+        }
     }
 }

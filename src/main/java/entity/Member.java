@@ -14,7 +14,6 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Member extends Person {
@@ -48,5 +47,16 @@ public class Member extends Person {
 
     public Member(@NotNull String firstName, @NotNull String lastName, @NotNull String userName, @NotNull String password) {
         super(firstName, lastName, userName, password);
+    }
+
+    @Override
+    public String toString() {
+        return "Member{" +
+                super.toString()+
+                "bookReserveList=" + bookReserveList +
+                ", bookBorrowedList=" + bookBorrowedList +
+                ", bookRenewalDeadlineList=" + bookRenewalDeadlineList +
+                ", historyOFBorrowedBookList=" + historyOFBorrowedBookList +
+                "}";
     }
 }
