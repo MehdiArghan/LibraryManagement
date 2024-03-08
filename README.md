@@ -1,0 +1,1 @@
+in this project i implemented a system for library management, in which there are two main entities, the librarian and the library member, and I included a series of facilities for each of the entities.
